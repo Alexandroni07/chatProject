@@ -49,11 +49,14 @@ const createMessageOtherElement = (content, sender, senderColor) => {
   return div;
 };
 
+//pega a cor aleatoria para o nome
 const getRandomColor = () => {
+  //arredonda para baixo
   const randomIndex = Math.floor(Math.random() * colors.length);
   return colors[randomIndex];
 };
 
+//scrolla a tela com decorrer das msg
 const scrollScreen = () => {
   window.scrollTo({
     top: document.body.scrollHeight,
@@ -74,18 +77,20 @@ const processMessage = ({ data }) => {
   scrollScreen();
 };
 
-//não recarregar mais a pagina no submit
 const handleLogin = (event) => {
+  //não recarregar mais a pagina no submit
   event.preventDefault();
 
   user.id = crypto.randomUUID();
   user.name = loginInput.value;
   user.color = getRandomColor();
 
+  //some com a tela de login e colocar o chat
   login.style.display = "none";
   chat.style.display = "flex";
 
-  websocket = new WebSocket("ws://localhost:8080");
+  //cria a conexão
+  websocket = new WebSocket("wss://chat-project-07bi.onrender.com");
   websocket.onmessage = processMessage;
 };
 
